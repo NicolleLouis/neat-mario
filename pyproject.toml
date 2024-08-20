@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "neat-mario"
+version = "0.1.0"
+description = ""
+authors = ["NicolleLouis <louis.a.nicolle@gmail.com>"]
+readme = "README.md"
+packages = [{include = "neat-mario"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+neat-python = "^0.92"
+gymnasium = "^0.29.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
