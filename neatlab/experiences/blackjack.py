@@ -18,8 +18,31 @@ class Blackjack(Experience):
 
         return score
 
-    def generate_environment(self):
-        return gymnasium.make("Blackjack-v1", sab=True)
+    def run_example(self):
+        for _ in range(10):
+            result = self.run_blackjack_game()
+            print(f"result: {self.translate_result(result)}")
+
+    @staticmethod
+    def translate_result(result):
+        if result == 1:
+            return "Victory"
+        elif result == 0:
+            return "Draw"
+        elif result == -1:
+            return "Defeat"
+
+        raise ValueError(f"Unknown result: {result}")
+
+    def generate_environment(self, human=False):
+        params = {
+            'id': "Blackjack-v1",
+            'sab': True,
+        }
+        if human:
+            params['render_mode'] = "human"
+
+        return gymnasium.make(**params)
 
     def run_blackjack_game(self) -> bool:
         observation, info = self.environment.reset()

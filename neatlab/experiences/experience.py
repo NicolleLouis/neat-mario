@@ -18,8 +18,19 @@ class Experience(ABC):
         pass
 
     @abstractmethod
-    def generate_environment(self):
+    def generate_environment(self, human=False):
         pass
+
+    def showcase(self):
+        self.environment = self.generate_environment(human=True)
+        self.run_example()
+
+    @abstractmethod
+    def run_example(self):
+        pass
+
+    def generate_net(self, genomes, config):
+        self.net = neat.nn.FeedForwardNetwork.create(genomes, config)
 
     @classmethod
     def get_config_path(cls):
@@ -55,9 +66,7 @@ class Experience(ABC):
 
     @classmethod
     def get_reporter_filename_prefix(cls):
-        script_dir = os.path.dirname(__file__)
-        root_dir = os.path.dirname(script_dir)
-        root_dir = os.path.dirname(root_dir)
+        root_dir = cls.get_root_dir()
         complete_filename = os.path.join(
             root_dir,
             'files',
@@ -65,3 +74,30 @@ class Experience(ABC):
              'backups/neat-checkpoint-'
         )
         return complete_filename
+
+    @classmethod
+    def get_root_dir(cls):
+        script_dir = os.path.dirname(__file__)
+        root_dir = os.path.dirname(script_dir)
+        root_dir = os.path.dirname(root_dir)
+        return root_dir
+
+    @classmethod
+    def get_winner_filename(cls, winner_filename='winner.pkl'):
+        root_dir = cls.get_root_dir()
+        return os.path.join(
+            root_dir,
+            'files',
+            cls.get_directory_name(),
+            winner_filename
+        )
+
+    @classmethod
+    def get_backup_directory(cls):
+        root_dir = cls.get_root_dir()
+        return os.path.join(
+            root_dir,
+            'files',
+            cls.get_directory_name(),
+            'backups'
+        )
