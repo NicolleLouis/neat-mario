@@ -1,2 +1,5 @@
-- Add the save of the best individual that comes from the system
 - Make a new more funky system like the car
+- Auto manage file
+    - At the end of the training move the latest checkpoint into latest
+    - Check directory for backup exist
+    - delete the 'neat-checkpoint-XX' files

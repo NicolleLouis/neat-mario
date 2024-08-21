@@ -1,7 +1,9 @@
-from neatlab.experiences.blackjack import Blackjack
-from neatlab.experiences.xor import XOR
+from neatlab.experiences.acrobot import Acrobot
 from neatlab.showcase import Showcase
 from neatlab.train import Train
 
-# Train(Blackjack).run(1)
-Showcase(Blackjack)
+# Train(Blackjack, backup_filename='latest').run(50)
+# Showcase(Blackjack)
+
+# Train(Acrobot, backup_filename='latest').run(50)
+Showcase(Acrobot)

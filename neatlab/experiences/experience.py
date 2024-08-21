@@ -17,8 +17,9 @@ class Experience(ABC):
     def get_score(self):
         pass
 
+    @staticmethod
     @abstractmethod
-    def generate_environment(self, human=False):
+    def generate_environment(human=False):
         pass
 
     def showcase(self):

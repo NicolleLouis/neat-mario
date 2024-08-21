@@ -34,7 +34,8 @@ class Blackjack(Experience):
 
         raise ValueError(f"Unknown result: {result}")
 
-    def generate_environment(self, human=False):
+    @staticmethod
+    def generate_environment(human=False):
         params = {
             'id': "Blackjack-v1",
             'sab': True,
@@ -53,6 +54,7 @@ class Blackjack(Experience):
             action = self.compute_action(observation)
             next_observation, reward, terminated, truncated, info = self.environment.step(action)
 
+            observation = next_observation
             done = terminated or truncated
             result = reward
 
