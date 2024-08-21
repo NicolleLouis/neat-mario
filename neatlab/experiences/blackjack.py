@@ -1,3 +1,5 @@
+import random
+
 import gymnasium
 
 from neatlab.experiences.experience import Experience
@@ -8,23 +10,17 @@ class Blackjack(Experience):
     DIRECTORY_NAME = 'blackjack'
     NODE_NAMES = {-1: 'OwnScore', -2: 'Dealer score', -3: 'Usable Ace', 0: 'Stop', 1: 'Hit'}
 
-    def get_score(self, game_limit=100) -> int:
+    def get_score(self, game_number=100) -> int:
         score = 0
-        has_lost = False
 
-        while not has_lost or score >= game_limit:
-            is_win = self.run_blackjack_game()
-            if is_win:
-                score += 1
-            else:
-                has_lost = True
+        for _ in range(game_number):
+            score += self.run_blackjack_game()
 
         return score
 
     def generate_environment(self):
         return gymnasium.make("Blackjack-v1", sab=True)
 
-    # Run a blackjack game, if the game is won or draw, return True, else False
     def run_blackjack_game(self) -> bool:
         observation, info = self.environment.reset()
         done = False
@@ -37,15 +33,16 @@ class Blackjack(Experience):
             done = terminated or truncated
             result = reward
 
-        if result in [1, 0]:
-            return True
-        if result in [-1]:
-            return False
+        return result
 
-        print(result)
-        raise ValueError("Incorrect result")
+    @staticmethod
+    def preprocess_observation(observation):
+        return observation[0] - 11, observation[1] - 11, observation[2]
 
     def compute_action(self, observation):
-        output = self.net.activate(observation)
+        cleaned_observation = self.preprocess_observation(observation)
+        output = self.net.activate(cleaned_observation)
+        if output == [0, 0]:
+            return random.randint(0, 1)
         action = output.index(max(output))
         return action

@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "neat-mario"
+name = "neatlab"
 version = "0.1.0"
 description = ""
 authors = ["NicolleLouis <louis.a.nicolle@gmail.com>"]
 readme = "README.md"
-packages = [{include = "neat-mario"}]
+packages = [{include = "neatlab"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"

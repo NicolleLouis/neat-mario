@@ -52,3 +52,16 @@ class Experience(ABC):
         if cls.DIRECTORY_NAME is None:
             raise NotImplementedError("Should have a directory name computation implemented")
         return cls.DIRECTORY_NAME
+
+    @classmethod
+    def get_reporter_filename_prefix(cls):
+        script_dir = os.path.dirname(__file__)
+        root_dir = os.path.dirname(script_dir)
+        root_dir = os.path.dirname(root_dir)
+        complete_filename = os.path.join(
+            root_dir,
+            'files',
+            cls.get_directory_name(),
+             'backups/neat-checkpoint-'
+        )
+        return complete_filename
